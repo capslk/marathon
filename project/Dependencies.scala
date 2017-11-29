@@ -19,6 +19,13 @@ object Dependencies {
     wixAccord % "compile"
   )
 
+  val mesosClient = Seq(
+    playJson % "compile",
+    scalaLogging % "compile",
+    akkaStream % "compile",
+    akkaHttp % "compile"
+  )
+
   val excludeSlf4jLog4j12 = ExclusionRule(organization = "org.slf4j", name = "slf4j-log4j12")
   val excludeLog4j = ExclusionRule(organization = "log4j", name = "log4j")
   val excludeJCL = ExclusionRule(organization = "commons-logging", name = "commons-logging")
@@ -57,6 +64,7 @@ object Dependencies {
     commonsIO % "compile",
     ammonite % "compile",
     ammoniteOps % "compile",
+    alpakkaCodes % "compile",
 
 
     // test
@@ -120,11 +128,13 @@ object Dependency {
     val JUnitBenchmarks = "0.7.2"
     val JMH = "1.19"
     val ScalaCheck = "1.13.5"
+    val ScalaPb = "0.6.6"
   }
 
   val excludeMortbayJetty = ExclusionRule(organization = "org.mortbay.jetty")
   val excludeJavaxServlet = ExclusionRule(organization = "javax.servlet")
 
+  val alpakkaCodes = "com.lightbend.akka" %% "akka-stream-alpakka-simple-codecs" % V.Alpakka
   val aws = "com.amazonaws" % "aws-java-sdk-core" % V.Aws
   val alpakkaS3 = "com.lightbend.akka" %% "akka-stream-alpakka-s3" % V.Alpakka
   val akkaActor = "com.typesafe.akka" %% "akka-actor" % V.Akka
@@ -157,6 +167,7 @@ object Dependency {
   val commonsIO = "commons-io" % "commons-io" % V.ApacheCommonsIO
   val ammonite = "com.lihaoyi" % "ammonite" % V.AmmoniteVersion cross CrossVersion.full
   val ammoniteOps = "com.lihaoyi" %% "ammonite-ops" % V.AmmoniteVersion
+  val scalaPb = "com.trueaccord.scalapb" %% "compilerplugin" % V.ScalaPb
 
   object Curator {
     /**
