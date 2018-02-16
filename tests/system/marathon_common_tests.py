@@ -1174,7 +1174,7 @@ def test_faultdomains_default():
     region_agents = count_agents_in_faultdomains(regions=local_domain.region)
 
     # Create an app with default configuration
-    app_def = apps.faultdomain_app(instances=region_agents)
+    app_def = apps.faultdomain_app(instances=region_agents, suffix="-defaults")
     client = marathon.create_client()
     client.add_app(app_def)
 
@@ -1205,7 +1205,7 @@ def test_faultdomains_region_only():
 
     # Create an app pinned on the given region, with at least double the number of instances than
     # the zones in the cluster, to ensure that they are distributed among all of them
-    app_def = apps.faultdomain_app(region=region, instances=len(zones) * 2)
+    app_def = apps.faultdomain_app(region=region, instances=len(zones) * 2, suffix="-region-only")
     client = marathon.create_client()
     client.add_app(app_def)
 
@@ -1241,7 +1241,11 @@ def test_faultdomains_region_and_zone():
     # (We are starting more instances than the number of zones in the region in order to increase
     #  the chance of a faulty instance to appear on a different zone)
     #
-    app_def = apps.faultdomain_app(region=region, zone=single_zone, instances=len(zones) * 2)
+    app_def = apps.faultdomain_app(
+        region=region,
+        zone=single_zone,
+        instances=len(zones) * 2,
+        suffix="-region-and-zone")
     client = marathon.create_client()
     client.add_app(app_def)
 
@@ -1272,7 +1276,8 @@ def test_faultdomains_region_unique():
     # The number of instances should be the number of regions available in the system
     app_def = apps.faultdomain_app(
         instances=len(regions),
-        constraints=[["@region", "UNIQUE"]]
+        constraints=[["@region", "UNIQUE"]],
+        suffix="-region-unique"
     )
     client = marathon.create_client()
     client.add_app(app_def)
@@ -1311,7 +1316,8 @@ def test_faultdomains_zone_unique():
     app_def = apps.faultdomain_app(
         region=region,
         instances=len(zones),
-        constraints=[["@zone", "UNIQUE"]]
+        constraints=[["@zone", "UNIQUE"]],
+        suffix="-zone-unique"
     )
     client = marathon.create_client()
     client.add_app(app_def)

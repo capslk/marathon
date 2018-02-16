@@ -91,7 +91,7 @@ def ipv6_healthcheck():
     return load_app('ipv6-healthcheck')
 
 
-def faultdomain_app(region=None, zone=None, instances=1, constraints=[]):
+def faultdomain_app(region=None, zone=None, instances=1, constraints=[], suffix=None):
     """
     This is a dynamic app definition based on the faultdomain-base-app. It modifies it by appending
     the name, zone and region configuration as given
@@ -104,6 +104,10 @@ def faultdomain_app(region=None, zone=None, instances=1, constraints=[]):
     """
     app = load_app('faultdomain-base-app')
     app['instances'] = instances
+
+    # Append name suffix if needed
+    if suffix:
+        app['id'] += suffix
 
     # Append region constraint
     if region is not None:
