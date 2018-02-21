@@ -23,7 +23,6 @@ class TaskKiller @Inject() (
     instanceTracker: InstanceTracker,
     stateOpProcessor: InstanceStateOpProcessor,
     groupManager: GroupManager,
-    service: MarathonSchedulerService,
     val config: MarathonConf,
     val authenticator: Authenticator,
     val authorizer: Authorizer,
@@ -46,8 +45,8 @@ class TaskKiller @Inject() (
           if (wipe) {
             val expunged = await(expunge(foundInstances))
             val killed = await(killService.killInstances(launchedInstances, KillReason.KillingTasksViaApi))
-          } else {
-            if (launchedInstances.nonEmpty) service.killInstances(runSpecId, launchedInstances)
+          } else if (launchedInstances.nonEmpty) {
+            val killed = await(killService.killInstances(launchedInstances, KillReason.KillingTasksViaApi))
           }
           // Return killed *and* expunged instances.
           // The user only cares that all instances won't exist eventually. That's why we send all instances back and
